@@ -39,12 +39,6 @@ li {
 }
 
 .input-erea {
-  background-color: #c1ffff;
-  width: 400px;
-  height: 30px;
-  padding: 8px 8px;
-  margin: 8px 8px;
-  border-radius: 8px;
 }
 .incomplete-erea {
   background-color: #c6ffc2;

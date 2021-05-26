@@ -1,7 +1,7 @@
 import React from "react";
 
 export const IncompleteTodos = (props) => {
-  const { incompleteTodos, onClickComplete } = props;
+  const { incompleteTodos, onClickComplete, onClickDelete } = props;
 
   return (
     <div className="incomplete-erea">
@@ -15,7 +15,7 @@ export const IncompleteTodos = (props) => {
               <li>{todo}</li>
               <button onClick={() => onClickComplete(index)}>完了</button>
               {/* リロード時に読み込ませない様にするために、アロー関数を使う */}
-              <button onClick={() => onClickComplete(index)}>削除</button>
+              <button onClick={() => onClickDelete(index)}>削除</button>
             </div>
           );
         })}
