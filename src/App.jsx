@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "./styles.css";
+import { InputTodo } from "./components/inputTodo";
+import { IncompleteTodos } from "./components/incompleteTodos";
+import { CompleteTodos } from "./components/completeTodos";
 
 export const App = () => {
   // 入力部分のステート化
@@ -16,7 +19,7 @@ export const App = () => {
   ]);
 
   // 表示する完了TODOリストをステート化
-  const [completeTodos, setCCompleteTodos] = useState([
+  const [completeTodos, setCompleteTodos] = useState([
     "ううううう",
     "えええええ"
   ]);
@@ -49,49 +52,34 @@ export const App = () => {
     const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
 
     setIncompleteTodos(newIncompleteTodos);
-    setCCompleteTodos(newCompleteTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
+
+  // 戻すボタン押下時の処理を追加
+  const onClickBack = (index) => {
+    // 完了TODOから削除
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+    // 未完了TODOに追加
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    //
+    setCompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
 
   return (
     <>
-      <div className="input-erea">
-        {/* 初期値につかうコンポーネントと、変更処理を記載 */}
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={onChangeTodoText}
-        />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
-      <div className="incomplete-erea">
-        <p className="title">未完了のTODO</p>
-        <ul>
-          {incompleteTodos.map((todo, index) => {
-            return (
-              // ループする場合、変更前と変更後の差分の目印が必要なので、keyを付ける
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                {/* リロード時に読み込ませない様にするために、アロー関数を使う */}
-                <button onClick={() => onClickDelete(index)}>削除</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="complete-erea">
-        <p className="title">完了のTODO</p>
-        <ul>
-          {completeTodos.map((todo) => {
-            return (
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button>戻す</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      {/* Propsにしてコンポーネントに渡す */}
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+      />
+      <IncompleteTodos
+        incompleteTodos={incompleteTodos}
+        onClickComplete={onClickComplete}
+      />
+      <CompleteTodos completeTodos={completeTodos} onClickBack={onClickBack} />
     </>
   );
 };
